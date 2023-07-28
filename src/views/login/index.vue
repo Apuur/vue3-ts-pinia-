@@ -53,7 +53,7 @@
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px; height: 40px"
-        @click.prevent="handleLogin"
+        @click.native.prevent="handleLogin"
         >登 陆</el-button
       >
     </el-form>
@@ -71,6 +71,7 @@ import { useUserInfoStore } from "@/stores/userInfo";
 import type { FormInstance } from "element-plus";
 import { nextTick, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
 import { ElMessage } from "element-plus";
 
 const userInfoStore = useUserInfoStore();
@@ -132,15 +133,20 @@ const showPwd = () => {
 点击登陆的回调
 */
 const handleLogin = async () => {
+  // form表单校验
   await formRef.value?.validate();
+  // 开启按钮loading加载效果
   loading.value = true;
+  // 获取表单输入的用户名和密码
   const { username, password } = loginForm.value;
   try {
+    // 调用pinia中的登录请求方法
     await userInfoStore.login(username, password);
     router.push({ path: redirect.value || "/" });
-  } catch (error: any) {
-    ElMessage.error(error.message);
+  } catch (e: any) {
+    ElMessage.error(e.message);
   } finally {
+    // 关闭loading
     loading.value = false;
   }
 };

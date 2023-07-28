@@ -1,7 +1,7 @@
 import axios, { type AxiosRequestHeaders, type AxiosResponse } from "axios";
 import { ElMessage, ElMessageBox } from "element-plus";
 import pinia from "@/stores/index";
-import { useUserInfoStore } from "../stores/userInfo";
+import { useUserInfoStore } from "@/stores/userInfo";
 
 /* 定义response对象的data接口 */
 interface ResponseData<T> {
@@ -13,11 +13,12 @@ interface ResponseData<T> {
 // 配置新建一个 axios 实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  timeout: 5000,
+  timeout: 50000,
 });
 
 // 添加请求拦截器
 service.interceptors.request.use((config) => {
+  // 请求头中携带token
   const token = useUserInfoStore().token;
   (config.headers as AxiosRequestHeaders).token = token;
   return config;

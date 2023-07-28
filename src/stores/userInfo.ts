@@ -3,13 +3,12 @@ import { getToken, removeToken, setToken } from "../utils/token-utils";
 import type { UserInfoState } from "./interface";
 import { ElMessage } from "element-plus";
 import { staticRoutes } from "@/router/routes";
-
-import { reqLogin, reqLogout, reqUserInfo } from "@/api/user";
+// 引入请求api接口
+import { reqLogin, reqUserInfo, reqLogout } from "@/api/user";
 
 /**
  * 用户信息
  * @methods setUserInfos 设置用户信息
- *
  */
 export const useUserInfoStore = defineStore("userInfo", {
   state: (): UserInfoState => ({
@@ -40,13 +39,15 @@ export const useUserInfoStore = defineStore("userInfo", {
     //     }, 1000)
     //   })
     // },
+    // 登录方法
     async login(username: string, password: string) {
       try {
         const result = await reqLogin({ username, password });
-        // console.log(result);
+        // token存储到仓库中
         this.token = result.token;
+        // 持久化存储token
         setToken(result.token);
-      } catch (error) {
+      } catch (error: any) {
         return Promise.reject(error);
       }
     },
@@ -62,7 +63,7 @@ export const useUserInfoStore = defineStore("userInfo", {
     //     }, 1000);
     //   });
     // },
-    // 获取用户信息
+    // 获取用户信息方法
     async getInfo() {
       try {
         const result = await reqUserInfo();
@@ -73,16 +74,18 @@ export const useUserInfoStore = defineStore("userInfo", {
         return Promise.reject(error);
       }
     },
+
     // 退出登录
     async getLogout() {
       try {
         await reqLogout();
+        // 退出成功后，重置数据
         this.reset();
       } catch (error) {
         return Promise.reject(error);
       }
     },
-    // 重置信息
+
     reset() {
       // 删除local中保存的token
       removeToken();

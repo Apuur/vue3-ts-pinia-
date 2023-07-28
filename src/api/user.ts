@@ -1,15 +1,18 @@
 import request from "@/utils/request";
 
-// 登录请求类型限制
-export interface loginInfoType {
+// TODO：登录请求接口类型限制
+// 1.请求体参数类型
+export interface userLoginInfoType {
   username: string;
   password: string;
 }
-export interface loginInfoReturnType {
+// 2.登录功能返回值类型
+export interface loginReturnType {
   token: string;
 }
 
-// 请求用户信息返回值类型
+// TODO:获取用户信息接口类型限制
+// 1.返回用户信息类型
 export interface userInfoType {
   routes: string[];
   buttons: string[];
@@ -18,23 +21,26 @@ export interface userInfoType {
   avatar: string;
 }
 
-// 1.登录接口请求
+// 1.登录请求接口
 // POST /admin/acl/index/login
-export const reqLogin = (userInfo: loginInfoType) => {
-  return request.post<null, loginInfoReturnType>(
+// login
+export const reqLogin = (userInfo: userLoginInfoType) => {
+  return request.post<null, loginReturnType>(
     `/admin/acl/index/login`,
     userInfo
   );
 };
 
-// 2.退出登录请求
+// 2.退出登录接口
 // POST /admin/acl/index/logout
+// logout
 export const reqLogout = () => {
   return request.post<null, null>(`/admin/acl/index/logout`);
 };
 
-// 3.请求用户信息
+// 3.获取用户信息接口
 // GET /admin/acl/index/info
+// info
 export const reqUserInfo = () => {
   return request.get<null, userInfoType>(`/admin/acl/index/info`);
 };

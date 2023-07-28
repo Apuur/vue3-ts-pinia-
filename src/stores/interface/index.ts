@@ -4,6 +4,5 @@ import type { userInfoType } from "@/api/user";
 export interface UserInfoState {
   token: string;
   userInfo: userInfoType;
-
   menuRoutes: RouteRecordRaw[]; // 用于生成导航菜单的路由列表
 }

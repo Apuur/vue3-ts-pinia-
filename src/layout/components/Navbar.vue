@@ -49,6 +49,7 @@ import Hamburger from "@/components/Hamburger/index.vue";
 import { useAppStore } from "@/stores/app";
 import { useUserInfoStore } from "@/stores/userInfo";
 import { useRoute, useRouter } from "vue-router";
+
 import { ElMessage } from "element-plus";
 
 const appStore = useAppStore();
@@ -60,6 +61,7 @@ const toggleSideBar = () => {
   appStore.toggleSidebar();
 };
 
+// 退出登录
 const logout = async () => {
   try {
     await userInfoStore.getLogout();
